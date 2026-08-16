@@ -4,14 +4,6 @@ A sleek, offline-first Android application designed to help you stay organized. 
 
 ---
 
-## 📸 Screenshots
-
-| Home Screen | Task Editor |
-| :---: | :---: |
-| ![Home](https://raw.githubusercontent.com/yourusername/ToDoApp/main/art/home_screen.png) | ![Editor](https://raw.githubusercontent.com/yourusername/ToDoApp/main/art/editor_screen.png) |
-
----
-
 ## ✨ Features
 
 - **🚀 Performance-First**: Instant loading and smooth animations using Jetpack Compose.
@@ -62,7 +54,7 @@ com.atif.todoapp
 ### Installation
 1. Clone the repository:
    ```bash
-   git clone https://github.com/yourusername/ToDoApp.git
+   git clone https://github.com/atifislam3/ToDoApp.git
    ```
 2. Open the project in **Android Studio**.
 3. Allow the Gradle sync to finish.
