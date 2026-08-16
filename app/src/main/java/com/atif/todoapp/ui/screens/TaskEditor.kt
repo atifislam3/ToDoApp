@@ -22,25 +22,28 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.atif.todoapp.data.room_database.TaskItem
 
 @OptIn(ExperimentalMaterial3Api::class)
-@Preview(showSystemUi = true, showBackground = true)
 @Composable
-fun TaskEditorDialog() {
-    var taskName by remember { mutableStateOf("") }
+fun TaskEditorDialog(
+    task: TaskItem?,
+    onSave: (String)-> Unit,
+    onCancel: ()-> Unit
+) {
+    var taskName by remember { mutableStateOf(task?.taskName ?:"") }
 
     ModalBottomSheet(
-        onDismissRequest = {}
+        onDismissRequest = onCancel
         , containerColor = Color.White
     ) {
         Column(
             modifier = Modifier.fillMaxWidth().padding(24.dp).
             navigationBarsPadding()
         ) {
-            Text("Create New Task",
+            Text(text = if (task==null)"Create New Task" else "Update Task",
                 fontSize = 24.sp,
                 fontWeight = FontWeight.Bold
 
@@ -60,10 +63,12 @@ fun TaskEditorDialog() {
             )
             Spacer(modifier = Modifier.height(26.dp))
             Button(
-                onClick = {},
+                onClick = {onSave(taskName.trim())},
                 modifier = Modifier.fillMaxWidth().height(56.dp),
                 shape = RoundedCornerShape(16.dp),
                 colors = ButtonDefaults.buttonColors(Color.DarkGray)
+
+                , enabled = taskName.isNotBlank()
             ){
             Text("Save Task",
                 fontSize = 16.sp,

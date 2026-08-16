@@ -9,7 +9,7 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Circle
+import androidx.compose.material.icons.filled.CheckCircle
 import androidx.compose.material.icons.filled.DeleteOutline
 import androidx.compose.material.icons.filled.Edit
 import androidx.compose.material.icons.filled.RadioButtonUnchecked
@@ -41,7 +41,7 @@ fun ToDoItem(
         shape = RoundedCornerShape(24.dp),
         colors = CardDefaults.cardColors(
 
-            if (item.isDone) Color.Gray else
+            if (item.isDone) Color.LightGray else
                 Color.White
         ),
         border = BorderStroke(1.dp, Color.Gray)
@@ -61,7 +61,7 @@ fun ToDoItem(
             ) {
                 Icon(
                     imageVector =
-                        if (item.isDone) Icons.Filled.Circle else
+                        if (item.isDone) Icons.Filled.CheckCircle else
                             Icons.Default.RadioButtonUnchecked,
                     contentDescription = null,
                     tint =
@@ -69,7 +69,7 @@ fun ToDoItem(
                             Color.Gray
 
                 )
-                Spacer(modifier = Modifier.width(4.dp))
+                Spacer(modifier = Modifier.width(8.dp))
             }
             Text(
                 item.taskName,
