@@ -42,22 +42,23 @@ fun ToDoListScreen(viewModel: TaskViewModel) {
 
     var showEditorDialog by remember { mutableStateOf(false) }
     Scaffold(
+        containerColor = Color(0xFFF8F9FA),
         floatingActionButton = {
             ExtendedFloatingActionButton(
                 onClick = {
                     taskToEdit = null
                     showEditorDialog = true
-                }, shape = RoundedCornerShape(20.dp),
-                containerColor = Color.DarkGray,
+                },
+                shape = RoundedCornerShape(16.dp),
+                containerColor = Color(0xFF2D3135),
                 contentColor = Color.White,
-                elevation = FloatingActionButtonDefaults.elevation(8.dp)
+                elevation = FloatingActionButtonDefaults.elevation(4.dp)
             ) {
                 Icon(
                     imageVector = Icons.Default.Add,
                     contentDescription = "Add Task"
                 )
-                Text("New Task", modifier = Modifier.padding(start = 8.dp))
-
+                Text("New Task", modifier = Modifier.padding(start = 8.dp), fontWeight = FontWeight.SemiBold)
             }
         }
     ) { innerPadding ->
@@ -67,55 +68,56 @@ fun ToDoListScreen(viewModel: TaskViewModel) {
                 .padding(horizontal = 20.dp)
                 .fillMaxSize()
         ) {
-
+            Spacer(modifier = Modifier.height(24.dp))
             Text(
-                "My Tasks", modifier = Modifier.padding(top = 20.dp),
-                fontWeight = FontWeight.Bold,
-                fontSize = 32.sp,
-                color = Color.DarkGray
-
-
+                "My Tasks",
+                fontWeight = FontWeight.ExtraBold,
+                fontSize = 34.sp,
+                color = Color(0xFF1A1C1E),
+                letterSpacing = (-0.5).sp
             )
+            val remainingTasks = tasks.count { !it.isDone }
             Text(
-                "${tasks.filter { !it.isDone }.size} Remaining Today",
-                color = Color.Gray
+                if (remainingTasks == 0 && tasks.isNotEmpty()) "All done for today! 🎉" 
+                else "$remainingTasks Remaining Today",
+                color = Color.Gray,
+                fontSize = 16.sp,
+                fontWeight = FontWeight.Medium
             )
-            Spacer(modifier = Modifier.height(16.dp))
-            if (tasks.isEmpty()
-
-            ) {
+            Spacer(modifier = Modifier.height(32.dp))
+            
+            if (tasks.isEmpty()) {
                 Box(
                     modifier = Modifier.fillMaxSize(),
                     contentAlignment = Alignment.Center
                 ) {
-                    Text("No Tasks ", color = Color.Gray)
+                    Column(horizontalAlignment = Alignment.CenterHorizontally) {
+                        Text("No Tasks Yet", color = Color.Gray, fontSize = 18.sp, fontWeight = FontWeight.Medium)
+                        Text("Tap + to add your first task", color = Color.LightGray, fontSize = 14.sp)
+                    }
                 }
-            } else LazyColumn(
-                verticalArrangement = Arrangement.spacedBy(12.dp),
-                contentPadding = PaddingValues(bottom = 80.dp)
-            ) {
-                items(
-                    items = tasks,
-                    key = { it.id }
-                ) { task ->
-                    ToDoItem(
-                        item = task,
-                        onEditClick = {
-
-                            taskToEdit = task; showEditorDialog = true
-
-                        },
-                        onDeleteClick = { viewModel.deleteTask(task) },
-                        onCheckChange = { checked -> viewModel.updateTask(task.copy(isDone = checked)) }
-
-                    )
-
+            } else {
+                LazyColumn(
+                    verticalArrangement = Arrangement.spacedBy(16.dp),
+                    contentPadding = PaddingValues(bottom = 100.dp)
+                ) {
+                    items(
+                        items = tasks,
+                        key = { it.id }
+                    ) { task ->
+                        ToDoItem(
+                            item = task,
+                            onEditClick = {
+                                taskToEdit = task
+                                showEditorDialog = true
+                            },
+                            onDeleteClick = { viewModel.deleteTask(task) },
+                            onCheckChange = { checked -> viewModel.updateTask(task.copy(isDone = checked)) }
+                        )
+                    }
                 }
-
             }
         }
-
-
     }
     if (showEditorDialog) {
         TaskEditorDialog(
